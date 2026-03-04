@@ -12,6 +12,8 @@
     <option value="us" selected>US (default)</option>
     <option value="canada">Canada</option>
     <option value="uk">UK</option>
+    <option value="eu">EU</option>
+    <option value="germany">Germany</option>
   </select>
 
   <label for="keywords">Keywords</label>
@@ -27,6 +29,24 @@
     id="industry"
     placeholder="finance supply chain"
   >
+
+  <label for="postedAfter">Posted After</label>
+  <input
+    type="date"
+    id="postedAfter"
+  >
+
+  <label for="presetName">Save Current as Preset</label>
+  <div id="presetControls">
+    <input
+      type="text"
+      id="presetName"
+      placeholder="e.g. US frontend finance"
+    >
+    <button id="savePreset">Save</button>
+  </div>
+
+  <ul id="presetList"></ul>
 
   <label for="blacklistInput">Add Blacklist Company</label>
   <input

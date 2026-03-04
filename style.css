@@ -77,3 +77,48 @@ button {
 #blacklist li:hover {
   background: #111827;
 }
+
+#presetControls {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+#presetControls input[type="text"] {
+  flex: 1;
+}
+
+#presetList {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+  max-height: 120px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+#presetList li {
+  padding: 4px 6px;
+  margin-bottom: 3px;
+  border-radius: 4px;
+  background: #020617;
+  border: 1px solid #1f2937;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#presetList li span {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#presetList li button {
+  margin-top: 0;
+  margin-left: 4px;
+  padding: 3px 6px;
+  font-size: 11px;
+}
