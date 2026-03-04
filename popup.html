@@ -4,61 +4,85 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="container">
+    <h2>Job Search Builder</h2>
 
-  <h2>Job Search Builder</h2>
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Smart builder</span>
+        <span class="section-tag">remote · SWE</span>
+      </div>
 
-  <label for="country">Country</label>
-  <select id="country">
-    <option value="us" selected>US (default)</option>
-    <option value="canada">Canada</option>
-    <option value="uk">UK</option>
-    <option value="eu">EU</option>
-    <option value="germany">Germany</option>
-  </select>
+      <label for="country">Country</label>
+      <select id="country">
+        <option value="us" selected>US (default)</option>
+        <option value="canada">Canada</option>
+        <option value="uk">UK</option>
+        <option value="eu">EU</option>
+        <option value="germany">Germany</option>
+      </select>
 
-  <label for="keywords">Keywords</label>
-  <input
-    type="text"
-    id="keywords"
-    placeholder="frontend backend full stack"
-  >
+      <label for="keywords">Keywords</label>
+      <input
+        type="text"
+        id="keywords"
+        placeholder="frontend backend full stack"
+      >
 
-  <label for="industry">Industry</label>
-  <input
-    type="text"
-    id="industry"
-    placeholder="finance supply chain"
-  >
+      <label for="industry">Industry</label>
+      <input
+        type="text"
+        id="industry"
+        placeholder="finance supply chain"
+      >
 
-  <label for="postedAfter">Posted After (optional)</label>
-  <input
-    type="date"
-    id="postedAfter"
-  >
+      <label for="postedAfter">Posted After (optional)</label>
+      <input
+        type="date"
+        id="postedAfter"
+      >
+    </div>
 
-  <label for="presetName">Save Custom Google Query</label>
-  <div id="presetControls">
-    <input
-      type="text"
-      id="presetName"
-      placeholder="e.g. remote frontend | backend | fullstack site:https://job-boards.greenhouse.io"
-    >
-    <button id="savePreset">Save</button>
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Saved queries</span>
+        <span class="section-subtitle">Click to run with current date filter</span>
+      </div>
+
+      <label for="presetName">Save Custom Google Query</label>
+      <div id="presetControls">
+        <input
+          type="text"
+          id="presetName"
+          placeholder="e.g. remote frontend | backend | fullstack site:https://job-boards.greenhouse.io"
+        >
+        <button id="savePreset" class="secondary">Save</button>
+      </div>
+
+      <ul id="presetList"></ul>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Blacklist companies</span>
+        <span class="section-subtitle">Exclude places you already applied</span>
+      </div>
+
+      <label for="blacklistInput">Add Blacklist Company</label>
+      <div class="inline-input">
+        <input
+          type="text"
+          id="blacklistInput"
+          placeholder="company you already applied"
+        >
+        <button id="addBlacklist" class="secondary">Add</button>
+      </div>
+
+      <ul id="blacklist"></ul>
+    </div>
+
+    <button id="searchBtn">Search Jobs</button>
   </div>
-
-  <ul id="presetList"></ul>
-
-  <label for="blacklistInput">Add Blacklist Company</label>
-  <input
-    type="text"
-    id="blacklistInput"
-    placeholder="company you already applied"
-  >
-  <button id="addBlacklist">Add</button>
-
-  <ul id="blacklist"></ul>
-
-  <button id="searchBtn">Search Jobs</button>
 
   <script src="popup.js"></script>
 </body>
