@@ -5,6 +5,7 @@ const searchBtn = document.getElementById("searchBtn");
 
 const countrySelect = document.getElementById("country");
 const keywordsInput = document.getElementById("keywords");
+const jobPageFilterSelect = document.getElementById("jobPageFilter");
 const industryInput = document.getElementById("industry");
 const postedAfterInput = document.getElementById("postedAfter");
 
@@ -70,6 +71,7 @@ function loadSearchConfig() {
 
     countrySelect.value = config.country || "us";
     keywordsInput.value = config.keywords || DEFAULT_KEYWORDS;
+    jobPageFilterSelect.value = config.jobPageFilter || "";
     industryInput.value = config.industry || "";
     postedAfterInput.value = config.postedAfter || "";
   });
@@ -79,6 +81,7 @@ function saveSearchConfig() {
   const config = {
     country: countrySelect.value || "us",
     keywords: keywordsInput.value || DEFAULT_KEYWORDS,
+    jobPageFilter: jobPageFilterSelect.value || "",
     industry: industryInput.value || "",
     postedAfter: postedAfterInput.value || "",
   };
@@ -89,6 +92,7 @@ function saveSearchConfig() {
 function executeSearch(config) {
   const country = config.country || "us";
   const keywords = config.keywords || DEFAULT_KEYWORDS;
+  const jobPageFilter = config.jobPageFilter || "";
   const industry = config.industry || "";
   const postedAfter = config.postedAfter || "";
 
@@ -96,8 +100,17 @@ function executeSearch(config) {
     const companies = result.blacklist || [];
     const blacklistQuery = companies.map((c) => `-${c}`).join(" ");
 
-    // Always remote, software engineer, and job in query
-    const query = `${country} remote job software engineer ${keywords} ${industry} ${blacklistQuery}`;
+    let jobPageQuery = "";
+    if (jobPageFilter === "careers") {
+      jobPageQuery = "(inurl:careers OR inurl:career)";
+    } else if (jobPageFilter === "jobs") {
+      jobPageQuery = "(inurl:jobs OR inurl:job)";
+    } else if (jobPageFilter === "vacancies") {
+      jobPageQuery = "(inurl:vacancies OR vacancies)";
+    }
+
+    // Always remote, software engineer, job in query
+    const query = `${country} remote job software engineer ${keywords} ${industry} ${jobPageQuery} ${blacklistQuery}`;
 
     const baseUrl = "https://www.google.com/search";
     const params = new URLSearchParams();
@@ -224,12 +237,13 @@ presetNameInput.addEventListener("keydown", (event) => {
 searchBtn.addEventListener("click", () => {
   const country = countrySelect.value;
   const keywords = keywordsInput.value || DEFAULT_KEYWORDS;
+  const jobPageFilter = jobPageFilterSelect.value || "";
   const industry = industryInput.value;
   const postedAfter = postedAfterInput.value;
 
   saveSearchConfig();
 
-  const config = { country, keywords, industry, postedAfter };
+  const config = { country, keywords, jobPageFilter, industry, postedAfter };
   executeSearch(config);
 });
 

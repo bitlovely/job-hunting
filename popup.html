@@ -29,6 +29,14 @@
         placeholder="frontend backend full stack"
       >
 
+      <label for="jobPageFilter">Job page URLs (optional)</label>
+      <select id="jobPageFilter">
+        <option value="">Any page</option>
+        <option value="careers">inurl:careers OR inurl:career</option>
+        <option value="jobs">inurl:jobs OR inurl:job</option>
+        <option value="vacancies">inurl:vacancies OR vacancies</option>
+      </select>
+
       <label for="industry">Industry</label>
       <input
         type="text"
