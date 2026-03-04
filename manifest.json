@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "Smart Job Search Builder",
+    "version": "1.0",
+    "description": "Build optimized Google job searches with blacklist support.",
+    "permissions": ["storage", "tabs"],
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "background": {
+      "service_worker": "background.js"
+    }
+  }

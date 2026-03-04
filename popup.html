@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h2>Job Search Builder</h2>
+
+  <label for="country">Country</label>
+  <select id="country">
+    <option value="us" selected>US (default)</option>
+    <option value="canada">Canada</option>
+    <option value="uk">UK</option>
+  </select>
+
+  <label for="keywords">Keywords</label>
+  <input
+    type="text"
+    id="keywords"
+    placeholder="frontend backend full stack"
+  >
+
+  <label for="industry">Industry</label>
+  <input
+    type="text"
+    id="industry"
+    placeholder="finance supply chain"
+  >
+
+  <label for="blacklistInput">Add Blacklist Company</label>
+  <input
+    type="text"
+    id="blacklistInput"
+    placeholder="company you already applied"
+  >
+  <button id="addBlacklist">Add</button>
+
+  <ul id="blacklist"></ul>
+
+  <button id="searchBtn">Search Jobs</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>
