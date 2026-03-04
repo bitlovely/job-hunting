@@ -131,16 +131,9 @@ function renderPresets(presets) {
 
     const nameSpan = document.createElement("span");
     nameSpan.textContent = preset.name;
-    nameSpan.title = "Click to run this preset";
+    nameSpan.title = "Click to run this query exactly";
     nameSpan.addEventListener("click", () => {
-      // Update UI to reflect preset values
       const cfg = preset.config || {};
-      countrySelect.value = cfg.country || "us";
-      keywordsInput.value = cfg.keywords || DEFAULT_KEYWORDS;
-      industryInput.value = cfg.industry || "";
-      postedAfterInput.value = cfg.postedAfter || "";
-      saveSearchConfig();
-
       executeSearch(cfg);
     });
 
@@ -175,29 +168,14 @@ function addPreset() {
   const name = presetNameInput.value.trim();
   if (!name) return;
 
-  const baseConfig = {
-    country: countrySelect.value || "us",
-    keywords: keywordsInput.value || DEFAULT_KEYWORDS,
-    industry: industryInput.value || "",
-    postedAfter: postedAfterInput.value || "",
-  };
+  const postedAfter = postedAfterInput.value || "";
 
-  chrome.storage.local.get(["presets", "blacklist"], (result) => {
+  chrome.storage.local.get(["presets"], (result) => {
     const presets = result.presets || [];
-    const companies = result.blacklist || [];
-
-    const blacklistQuery = companies.map((c) => `-${c}`).join(" ");
-
-    const country = baseConfig.country || "us";
-    const keywords = baseConfig.keywords || DEFAULT_KEYWORDS;
-    const industry = baseConfig.industry || "";
-    const postedAfter = baseConfig.postedAfter || "";
-
-    const query = `${country} remote job software engineer ${keywords} ${industry} ${blacklistQuery}`;
 
     const baseUrl = "https://www.google.com/search";
     const params = new URLSearchParams();
-    params.set("q", query);
+    params.set("q", name);
 
     if (postedAfter) {
       const [year, month, day] = postedAfter.split("-");
@@ -207,7 +185,7 @@ function addPreset() {
 
     const url = `${baseUrl}?${params.toString()}`;
 
-    const config = { ...baseConfig, url };
+    const config = { query: name, postedAfter, url };
 
     // If a preset with same name exists, replace it
     const existingIndex = presets.findIndex((p) => p.name === name);
