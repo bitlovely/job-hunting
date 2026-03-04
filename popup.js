@@ -102,11 +102,11 @@ function executeSearch(config) {
 
     let jobPageQuery = "";
     if (jobPageFilter === "careers") {
-      jobPageQuery = "(inurl:careers OR inurl:career)";
+      jobPageQuery = "inurl:careers OR inurl:career";
     } else if (jobPageFilter === "jobs") {
-      jobPageQuery = "(inurl:jobs OR inurl:job)";
+      jobPageQuery = "inurl:jobs OR inurl:job";
     } else if (jobPageFilter === "vacancies") {
-      jobPageQuery = "(inurl:vacancies OR vacancies)";
+      jobPageQuery = "inurl:vacancies OR vacancies";
     }
 
     // Always remote, software engineer, job in query
