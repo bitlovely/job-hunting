@@ -87,6 +87,12 @@ function saveSearchConfig() {
 }
 
 function executeSearch(config) {
+  // If this config already has a fully built URL, just open it.
+  if (config.url) {
+    chrome.tabs.create({ url: config.url });
+    return;
+  }
+
   const country = config.country || "us";
   const keywords = config.keywords || DEFAULT_KEYWORDS;
   const industry = config.industry || "";
@@ -126,7 +132,17 @@ function renderPresets(presets) {
     const nameSpan = document.createElement("span");
     nameSpan.textContent = preset.name;
     nameSpan.title = "Click to run this preset";
-    nameSpan.addEventListener("click", () => executeSearch(preset.config));
+    nameSpan.addEventListener("click", () => {
+      // Update UI to reflect preset values
+      const cfg = preset.config || {};
+      countrySelect.value = cfg.country || "us";
+      keywordsInput.value = cfg.keywords || DEFAULT_KEYWORDS;
+      industryInput.value = cfg.industry || "";
+      postedAfterInput.value = cfg.postedAfter || "";
+      saveSearchConfig();
+
+      executeSearch(cfg);
+    });
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "X";
@@ -159,15 +175,39 @@ function addPreset() {
   const name = presetNameInput.value.trim();
   if (!name) return;
 
-  const config = {
+  const baseConfig = {
     country: countrySelect.value || "us",
     keywords: keywordsInput.value || DEFAULT_KEYWORDS,
     industry: industryInput.value || "",
     postedAfter: postedAfterInput.value || "",
   };
 
-  chrome.storage.local.get(["presets"], (result) => {
+  chrome.storage.local.get(["presets", "blacklist"], (result) => {
     const presets = result.presets || [];
+    const companies = result.blacklist || [];
+
+    const blacklistQuery = companies.map((c) => `-${c}`).join(" ");
+
+    const country = baseConfig.country || "us";
+    const keywords = baseConfig.keywords || DEFAULT_KEYWORDS;
+    const industry = baseConfig.industry || "";
+    const postedAfter = baseConfig.postedAfter || "";
+
+    const query = `${country} remote job software engineer ${keywords} ${industry} ${blacklistQuery}`;
+
+    const baseUrl = "https://www.google.com/search";
+    const params = new URLSearchParams();
+    params.set("q", query);
+
+    if (postedAfter) {
+      const [year, month, day] = postedAfter.split("-");
+      const formatted = `${month}/${day}/${year}`;
+      params.set("tbs", `cdr:1,cd_min:${formatted},cd_max:`);
+    }
+
+    const url = `${baseUrl}?${params.toString()}`;
+
+    const config = { ...baseConfig, url };
 
     // If a preset with same name exists, replace it
     const existingIndex = presets.findIndex((p) => p.name === name);
